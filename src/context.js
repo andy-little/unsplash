@@ -4,12 +4,29 @@ const  AppContext = createContext();
 const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`
+const getStoragePref = () => {
+  let pref = 'dark-mode';
+  if(localStorage.getItem('prefrence')) pref = localStorage.getItem('prefrence');
+  return pref;
+}
 
 export const AppProvider = ({children}) => {
     const [loading, setLoading] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [page, setPage] = useState(1);
     const [query, setQuery] = useState('');
+    const [theme, setTheme] = useState(getStoragePref());
+  
+    //toggle theme
+    const toggleTheme = () => {
+        setTheme(prevTheme => prevTheme === 'dark-mode' ? 'light-mode' : 'dark-mode');
+    }
+  
+    useEffect(()=>{
+        document.documentElement.classList = theme;
+        localStorage.setItem('prefrence', theme);
+    },[theme]);
+
 
     //fetch stock images
     const fetchImages = async() => {
@@ -44,10 +61,16 @@ export const AppProvider = ({children}) => {
         }
         setLoading(false);
     }
+
     //fetch stock images
     useEffect(() => {
         fetchImages();
     },[page])
+
+    //get light/dark pref
+    useEffect(()=> {
+    getStoragePref()
+  },[]);
 
 
     //Infinite Scroll
@@ -70,7 +93,7 @@ export const AppProvider = ({children}) => {
         
     }
 
-    return <AppContext.Provider value={{photos, loading, query, setQuery, searchSubmit}}>
+    return <AppContext.Provider value={{photos, loading, query, setQuery, searchSubmit, toggleTheme}}>
         {children}
     </AppContext.Provider>
 }

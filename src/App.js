@@ -1,19 +1,18 @@
 import React from 'react'
-import { FaSearch } from 'react-icons/fa'
 import { useGlobalContext } from './context'
 import Photo from './Photo'
+import Search from './Search';
+import Switch from './Switch';
 
 
 
 function App() {
-  const {photos, loading, searchSubmit, query, setQuery} = useGlobalContext();
+  const {photos, loading} = useGlobalContext();
   return <main>
-    <section className="search">
-      <form onSubmit={searchSubmit} className="search-form">
-        <input className='form-input' type="text" placeholder="search" value={query} onChange={e => setQuery(e.target.value)}/>
-        <button className="submit-btn"><FaSearch/></button>
-      </form>
-    </section>
+    <nav>
+      <Search/>
+      <Switch/>
+    </nav>
     <section className="photos">
       <div className="photos-center">
 
