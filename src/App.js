@@ -9,10 +9,13 @@ import Switch from './Switch';
 function App() {
   const {photos, loading} = useGlobalContext();
   return <main>
-    <nav>
-      <Search/>
-      <Switch/>
-    </nav>
+
+    <div className="nav-container">
+      <nav>
+        <Search/>
+        <Switch/>
+      </nav>
+    </div>
     <section className="photos">
       <div className="photos-center">
 
